@@ -40,6 +40,7 @@ export default function InputTask(props) {
                 </View>
             </Modal>
             <Pressable
+                android_ripple={{color: 'black', borderless: false  }}
                 style={styles.modalOpen}
                 onPress={() => setModalVisible(true)}
             >
