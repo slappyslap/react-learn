@@ -1,10 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, TextInput, TouchableOpacity, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  Button,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  ImageBackground,
+  FlatList
+} from 'react-native';
 import {useState} from "react";
 import TaskItem from "./components/TaskItem";
 import InputTask from "./components/InputTask";
+import image from "react-native-web/dist/exports/Image";
 
 export default function App() {
+
+  const backgroundImg = { uri: "https://1.bp.blogspot.com/-pJUPYTSH8L0/YCW5iehHL8I/AAAAAAAAfHc/lchmdokr7JkTph1_DPFLMkh4BevHtz5tACLcBGAsYHQ/s600-rw/02112021-MINIMALIST-JAPANESE-MOBILE-HD.png" }
+
   const [taskList, setTaskList] = useState([
     "Faire les courses",
     "Aller à la salle de sport 3 fois par semaine",
@@ -30,21 +44,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={backgroundImg} resizeMode="cover" style={styles.image}>
 
       <Text style={styles.heading}>Max to-do</Text>
 
-      <ScrollView style={styles.scrollView}>
-        {
-          taskList.map((task, index) => {
-            return (
-                <TaskItem key={index} task={task} delete={deleteItem} index={index}/>
-            )
-          })
-        }
-      </ScrollView>
+        <FlatList style={styles.list} data={taskList} keyExtractor={(item, index) => index.toString()} renderItem={({item, index}) => {
+          return(<TaskItem key={index} task={item} delete={deleteItem} index={index}/>)
+        }}/>
 
       <InputTask handleAdd={handleAddTask}/>
 
+      </ImageBackground>
     </View>
   );
 }
@@ -52,9 +62,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#202124',
   },
-  scrollView: {
+  image: {
+    flex: 1,
+    justifyContent: "center"
+  },
+  list: {
     marginBottom: 75,
   },
   heading: {

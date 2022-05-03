@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         marginVertical: 2
     },
     taskContainer: {
-        backgroundColor: '#3E3364',
+        backgroundColor: '#3E3364C0',
         borderRadius: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',

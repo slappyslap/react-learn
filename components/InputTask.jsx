@@ -23,7 +23,7 @@ export default function InputTask(props) {
 
 const styles = StyleSheet.create({
     inputContainer: {
-        backgroundColor: '#3E3364',
+        backgroundColor: '#3E3364C0',
         marginHorizontal: 10,
         borderRadius: 12,
         flexDirection: 'row',
