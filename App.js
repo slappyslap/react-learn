@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import {Button, TextInput, TouchableOpacity, StyleSheet, Text, View} from 'react-native';
+import {Button, TextInput, TouchableOpacity, StyleSheet, Text, View, ScrollView} from 'react-native';
 import {useState} from "react";
+import TaskItem from "./components/TaskItem";
+import InputTask from "./components/InputTask";
 
 export default function App() {
-  const [task, setTask] = useState("")
   const [taskList, setTaskList] = useState([
     "Faire les courses",
     "Aller à la salle de sport 3 fois par semaine",
@@ -24,9 +25,7 @@ export default function App() {
   }
 
   const handleAddTask = function (value) {
-    taskList.push(value)
-    setTaskList(taskList)
-    setTask("")
+    setTaskList([...taskList, value])
   }
 
   return (
@@ -34,27 +33,17 @@ export default function App() {
 
       <Text style={styles.heading}>Max to-do</Text>
 
-      {
-        taskList.map((task, index) => {
-          return (
-              <View style={styles.customContainer} key={index}>
-                <View style={styles.taskContainer}>
-                  <Text style={styles.task}>{task}</Text>
-                  <Button color='#c0392b' title="X" onPress={() => deleteItem(index)}/>
-                </View>
-              </View>
-          )
-        })
-      }
+      <ScrollView style={styles.scrollView}>
+        {
+          taskList.map((task, index) => {
+            return (
+                <TaskItem key={index} task={task} delete={deleteItem} index={index}/>
+            )
+          })
+        }
+      </ScrollView>
 
-      <View style={styles.inputContainer}>
-        <TextInput style={styles.inputField} value={task} onChangeText={text => setTask(text)} placeholder={'Write a task'} placeholderTextColor={'#fff'}/>
-        <TouchableOpacity onPress={() => handleAddTask(task)}>
-          <View style={styles.button}>
-            <Text style={{color: "#FFF"}}>ADD</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      <InputTask handleAdd={handleAddTask}/>
 
     </View>
   );
@@ -64,61 +53,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#202124',
-    alignItems: 'center',
+  },
+  scrollView: {
+    marginBottom: 75,
   },
   heading: {
-    fontSize: 30,
-    color: "#FFF",
-    marginTop: 50,
-    marginBottom: 15,
-  },
-  customContainer: {
-    flexDirection: "row",
-    marginHorizontal: 20,
-    marginLeft: 10,
-    marginVertical: 2
-  },
-  taskContainer: {
-    backgroundColor: '#3E3364',
-    borderRadius: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    minHeight: 50,
-  },
-  task: {
     color: '#fff',
-    width: '99%',
-    fontSize: 16,
-  },
-  delete: {
-    marginLeft: 10,
-  },
-  inputContainer: {
-    backgroundColor: '#3E3364',
-    marginHorizontal: 10,
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    position: 'absolute',
-    bottom: 20,
-  },
-  inputField: {
-    color: '#fff',
-    height: 50,
-    flex: 1,
-  },
-  button: {
-    height: 30,
-    width: 50,
-    borderRadius: 5,
-    backgroundColor: '#c0392b',
-    alignItems: 'center',
-    justifyContent: 'center'
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 30,
+    marginBottom: 10,
+    marginLeft: 20,
   },
 });
